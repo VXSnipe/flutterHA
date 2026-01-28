@@ -84,35 +84,60 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            ListTile(
-              leading: const Icon(Icons.map),
-              title: Text(_location),
-              onTap: _getLocation,
-              tileColor: Colors.blue.withOpacity(0.1),
+            Semantics(
+              label: 'GPS Location Tracker',
+              hint: 'Tap to fetch current GPS coordinates',
+              button: true,
+              child: ListTile(
+                leading: const Icon(Icons.map),
+                title: Text(_location),
+                onTap: _getLocation,
+                tileColor: Colors.blue.withOpacity(0.1),
+              ),
             ),
             const SizedBox(height: 10),
-            ListTile(
-              leading: const Icon(Icons.battery_std),
-              title: Text(_battery),
-              onTap: _getBattery,
-              tileColor: Colors.green.withOpacity(0.1),
+            Semantics(
+              label: 'Battery Level Monitor',
+              hint: 'Tap to check device battery percentage',
+              button: true,
+              child: ListTile(
+                leading: const Icon(Icons.battery_std),
+                title: Text(_battery),
+                onTap: _getBattery,
+                tileColor: Colors.green.withOpacity(0.1),
+              ),
             ),
             const SizedBox(height: 20),
-            TextField(
-              controller: _goalController,
-              decoration: const InputDecoration(labelText: "Enter Daily Work Goal"),
+            Semantics(
+              label: 'Daily Work Goal Input Field',
+              hint: 'Enter your work goal for today',
+              textField: true,
+              child: TextField(
+                controller: _goalController,
+                decoration: const InputDecoration(labelText: "Enter Daily Work Goal"),
+              ),
             ),
-            ElevatedButton(onPressed: _saveGoal, child: const Text("Save to Local Storage")),
+            Semantics(
+              label: 'Save Work Goal Button',
+              hint: 'Saves your daily work goal to local storage',
+              button: true,
+              child: ElevatedButton(onPressed: _saveGoal, child: const Text("Save to Local Storage")),
+            ),
             const Spacer(),
-            ElevatedButton.icon(
-              icon: const Icon(Icons.notifications_active),
-              label: const Text("Test Activity Nudge"),
-              onPressed: () {
-                NotificationService().showNotification(
-                  title: "WFH Alert",
-                  body: "Time to stand up and stretch!",
-                );
-              },
+            Semantics(
+              label: 'Test Activity Reminder Notification',
+              hint: 'Sends a test notification to remind you to take a break',
+              button: true,
+              child: ElevatedButton.icon(
+                icon: const Icon(Icons.notifications_active),
+                label: const Text("Test Activity Nudge"),
+                onPressed: () {
+                  NotificationService().showNotification(
+                    title: "WFH Alert",
+                    body: "Time to stand up and stretch!",
+                  );
+                },
+              ),
             ),
           ],
         ),
