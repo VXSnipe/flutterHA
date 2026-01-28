@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // R&U3: GPS Logic
   Future<void> _getLocation() async {
-    LocationPermission permission = await Geolocator.requestPermission();
+    await Geolocator.requestPermission();
     Position pos = await Geolocator.getCurrentPosition();
     setState(() => _location = "Lat: ${pos.latitude}, Lon: ${pos.longitude}");
     await analytics.logEvent(name: 'check_location');
@@ -67,7 +67,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void _saveGoal() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('work_goal', _goalController.text);
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Goal Saved!")));
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Goal Saved!")));
+    }
     await analytics.logEvent(name: 'save_goal');
   }
 
@@ -92,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 leading: const Icon(Icons.map),
                 title: Text(_location),
                 onTap: _getLocation,
-                tileColor: Colors.blue.withOpacity(0.1),
+                tileColor: Colors.blue.withValues(alpha: 0.1),
               ),
             ),
             const SizedBox(height: 10),
@@ -104,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 leading: const Icon(Icons.battery_std),
                 title: Text(_battery),
                 onTap: _getBattery,
-                tileColor: Colors.green.withOpacity(0.1),
+                tileColor: Colors.green.withValues(alpha: 0.1),
               ),
             ),
             const SizedBox(height: 20),
