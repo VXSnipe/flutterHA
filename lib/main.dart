@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
-import 'notification_service.dart'; // Ensure you created this file!
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await NotificationService().initNotification();
   runApp(const WFHApp());
 }
@@ -33,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String _battery = "Check Battery";
   final _goalController = TextEditingController();
   static const platform = MethodChannel('samples.flutter.dev/battery');
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   @override
   void initState() {
@@ -45,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       final int result = await platform.invokeMethod('getBatteryLevel');
       setState(() => _battery = "Battery: $result%");
+      await analytics.logEvent(name: 'check_battery', parameters: {'battery_level': result});
     } catch (e) {
       setState(() => _battery = "Failed to get battery.");
     }
@@ -55,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
     LocationPermission permission = await Geolocator.requestPermission();
     Position pos = await Geolocator.getCurrentPosition();
     setState(() => _location = "Lat: ${pos.latitude}, Lon: ${pos.longitude}");
+    await analytics.logEvent(name: 'check_location');
   }
 
   // A&A3: Local Storage
@@ -62,6 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('work_goal', _goalController.text);
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Goal Saved!")));
+    await analytics.logEvent(name: 'save_goal');
   }
 
   void _loadGoal() async {

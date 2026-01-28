@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "801345324006",
+    "project_id": "flutterha-47544",
+    "storage_bucket": "flutterha-47544.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:801345324006:android:11cb04cf4b6a898c7a8c27",
+        "android_client_info": {
+          "package_name": "com.example.flutterha"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDe6S1YP_JrZMrgsN5a16AlmNK_nZOfKiY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -14,7 +14,7 @@ dependencies:
   shared_preferences: ^2.3.2   #(Local Storage)
   flutter_local_notifications: ^17.2.1 #(Notifications)
   firebase_analytics: ^11.3.3  #(Analytics)
-  #firebase_core: ^3.6.0
+  firebase_core: ^3.6.0
 
 dev_dependencies:
   flutter_test:
